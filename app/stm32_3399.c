@@ -9,7 +9,7 @@ void get_stm32_3399_value(long *up_dataHeader, int *up_instantSpeed,
     *up_isBrake         =   0x5;
     *up_chargingStatus    =   0x3;
     memset(up_driversLicenseNum, 0, 20);
-    memcpy(up_driversLicenseNum, "410105199607150000", 20);
+    memcpy(up_driversLicenseNum, "410105199607150000000000", 20);
     *up_BccCheckValue     =   0x7;
 }
 
