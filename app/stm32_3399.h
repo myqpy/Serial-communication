@@ -1,5 +1,8 @@
-#include <stdio.h>
+#include <iostream>
 #include <string.h>
+
+using namespace std;
+
 
 struct stm32_3399
 {
@@ -8,14 +11,14 @@ struct stm32_3399
     unsigned int    tripDistance;
     unsigned char   isBrake;
     unsigned char   chargingStatus;
-    unsigned char   driversLicenseNum[20];
+    char   driversLicenseNum[20];
     unsigned char   BccCheckValue;
 };
 
-void update_stm32_3399_value(struct stm32_3399 *para, long up_dataHeader, int up_instantSpeed, 
-                            int up_tripDistance, unsigned char up_isBrake, unsigned char up_chargingStatus, 
-                            unsigned char *up_driversLicenseNum, unsigned char up_BccCheckValue);
+int update_32_value(struct stm32_3399 *para, unsigned long up_dataHeader, unsigned int up_instantSpeed, 
+                            unsigned int up_tripDistance, unsigned char up_isBrake, unsigned char up_chargingStatus, 
+                            char *up_driversLicenseNum, unsigned char up_BccCheckValue);
 
-void get_stm32_3399_value(long *up_dataHeader, int *up_instantSpeed, 
-                            int *up_tripDistance, unsigned char* up_isBrake, unsigned char *up_chargingStatus, 
-                            unsigned char *up_driversLicenseNum, unsigned char *up_BccCheckValue);
+int get_32_value(unsigned long *up_dataHeader, unsigned int *up_instantSpeed, 
+                           unsigned int *up_tripDistance, unsigned char* up_isBrake, unsigned char *up_chargingStatus, 
+                        char *up_driversLicenseNum, unsigned char *up_BccCheckValue);
