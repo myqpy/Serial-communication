@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include "stm32_3399.h"
-
+#include "selfcheck.h"
 
 // int main(void)
 // {
@@ -23,10 +23,18 @@
 //     return 0;    
 // }
 
+// int main(void)
+// {
+//     stm32_value stm32_value;
+//     stm32_value.get();           
+//     stm32_value.update();
+//     return 0;    
+// }
+
+
 int main(void)
 {
-    stm32_value stm32_value;
-    stm32_value.get();           
-    stm32_value.update();
+    selfcheck selfCheck;
+    selfCheck.self_check();
     return 0;    
 }
