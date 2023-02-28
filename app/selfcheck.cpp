@@ -2,44 +2,160 @@
 #include "utilUart.h"
 #include "selfcheck.h"
 
-int selfcheck::check_4G(void)
+#include <iostream>
+
+/// 执行cmd指令并返回结果
+std::string getCmdResult(const std::string &strCmd)
 {
-    status = 1;
-    status = 0;
-    return status;
-}
-int selfcheck::check_BD(void)
-{
-    status = 1;
-    status = 0;
-    return status;
-}
-int selfcheck::check_camera(void)
-{
-    status = 1;
-    status = 0;
-    return status;
+    char buf[10240] = {0};
+    FILE *pf = NULL;
+
+    if ((pf = popen(strCmd.c_str(), "r")) == NULL)
+    {
+        return "";
+    }
+
+    std::string strResult;
+    while (fgets(buf, sizeof buf, pf))
+    {
+        strResult += buf;
+    }
+
+    pclose(pf);
+
+    unsigned int iSize = strResult.size();
+    if (iSize > 0 && strResult[iSize - 1] == '\n') // linux
+    {
+        strResult = strResult.substr(0, iSize - 1);
+    }
+
+    return strResult;
 }
 
-int selfcheck::self_check(void)
+int selfcheck::check_4G_modem(void)
 {
-    if (selfcheck::check_4G() == 0)
+    std::string check_4G_modem = "ls /dev/ttyUSB*";
+    std::string strRe = getCmdResult(check_4G_modem);
+    if (strRe.find("/dev/ttyUSB0") != std::string::npos)
     {
-        std::cout << "4G modem error." << std::endl;
-        if (selfcheck::check_BD() == 0)
+        if (strRe.find("/dev/ttyUSB1") != std::string::npos)
         {
-            std::cout << "BD modem error." << std::endl;
-            if (selfcheck::check_camera() == 0)
+            if (strRe.find("/dev/ttyUSB2") != std::string::npos)
             {
-                std::cout << "camera error." << std::endl;
+                status = 1;
+                std::cout << "4G modem OK." << std::endl;
             }
         }
     }
-
     else
     {
-        std::cout << "Self Check Passed." << std::endl;
+        status = 0;
     }
+    return status;
+}
+// int selfcheck::check_BD(void)
+// {
+
+//     status = 1;
+//     status = 0;
+//     return status;
+// }
+
+int selfcheck::check_4G_status(void)
+{
+    std::string camera_AHD1_check = "ifconfig";
+    // auto ret = system(camera_check.c_str());
+    std::string strRe = getCmdResult(camera_AHD1_check);
+    // std::cout << strRe << std::endl;
+    if (strRe.find("ppp0:") != std::string::npos)
+    {
+        if (strRe.find("UP,POINTOPOINT,RUNNING,NOARP,MULTICAST") != std::string::npos)
+        {
+            status = 1;
+            std::cout << "4G Connetct OK." << std::endl;
+        }
+    }
+    else
+    {
+        status = 0;
+    }
+
+    return status;
+}
+
+int selfcheck::check_camera_AHD1(void)
+{
+    std::string camera_AHD1_check = "dmesg | grep pr2000";
+    // auto ret = system(camera_check.c_str());
+    std::string strRe = getCmdResult(camera_AHD1_check);
+    // std::cout << strRe << std::endl;
+    if (strRe.find("Detected 720P25") != std::string::npos)
+    {
+        status = 1;
+        std::cout << "camera_AHD1_check OK." << std::endl;
+    }
+    else
+    {
+        status = 0;
+    }
+
+    return status;
+}
+int selfcheck::check_TFcard(void)
+{
+    std::string TFcard_check = "sudo fdisk -l";
+    std::string strRe = getCmdResult(TFcard_check);
+    if (strRe.find("Disk /dev/mmcblk0") != std::string::npos)
+    {
+        status = 1;
+        std::cout << "TFcard OK." << std::endl;
+    }
+    else
+    {
+        status = 0;
+    }
+
+    return status;
+}
+
+int selfcheck::first_self_check(void)
+{
+    if (selfcheck::check_4G_modem() == 0)
+    {
+        std::cout << "4G modem error." << std::endl;
+    }
+    // if (selfcheck::check_BD() == 0)
+    // {
+    //     std::cout << "BD modem error." << std::endl;
+    // }
+    if (selfcheck::check_camera_AHD1() == 0)
+    {
+        std::cout << "check_camera_AHD1 error." << std::endl;
+    }
+    if (selfcheck::check_TFcard() == 0)
+    {
+        std::cout << "TFcard error." << std::endl;
+    }
+    // else
+    // {
+    //     std::cout << "Self Check Passed." << std::endl;
+    // }
+
+    return 0;
+}
+
+
+int selfcheck::regular_self_check(void)
+{
+    if (selfcheck::check_4G_status() == 0)
+    {
+        std::cout << "4G connect error." << std::endl;
+    }
+
+    // else
+    // {
+    //     std::cout << "Self Check Passed." << std::endl;
+    // }
 
     return 0;
 }
