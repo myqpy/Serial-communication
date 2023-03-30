@@ -61,7 +61,7 @@ int selfcheck::check_4G_modem(void)
 //     return status;
 // }
 
-int selfcheck::check_4G_status(void)
+int selfcheck::check_4G_IP_status(void)
 {
     std::string camera_AHD1_check = "ifconfig";
     // auto ret = system(camera_check.c_str());
@@ -141,21 +141,9 @@ int selfcheck::first_self_check(void)
     //     std::cout << "Self Check Passed." << std::endl;
     // }
 
-    return 0;
-}
-
-
-int selfcheck::regular_self_check(void)
-{
-    if (selfcheck::check_4G_status() == 0)
+    if (selfcheck::check_4G_IP_status() == 0)
     {
         std::cout << "4G connect error." << std::endl;
     }
-
-    // else
-    // {
-    //     std::cout << "Self Check Passed." << std::endl;
-    // }
-
     return 0;
 }

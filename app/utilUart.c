@@ -145,7 +145,7 @@ extern "C"
 		Opt.c_lflag &= ~(ICANON | ISIG | ECHO | IEXTEN);
 		Opt.c_iflag &= ~(INPCK | BRKINT | ICRNL | ISTRIP | IXON);
 
-		if (tcsetattr(fd, TCSANOW, &Opt) != 0) //装锟截筹拷始锟斤拷锟斤拷锟斤拷
+		if (tcsetattr(fd, TCSANOW, &Opt) != 0) // 装锟截筹拷始锟斤拷锟斤拷锟斤拷
 		{
 			printf("SetupSerial!\n");
 			close(fd);
@@ -195,7 +195,7 @@ extern "C"
 		int fd = 0;
 		if (UartName == NULL)
 			return -1;
-		fd = open(UartName, O_RDWR);									//阻塞模式读写
+		fd = open(UartName, O_RDWR); // 阻塞模式读写
 		// fd = open(UartName, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK); //非阻塞模式读写
 		if (fd <= 0)
 		{
