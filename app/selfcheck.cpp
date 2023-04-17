@@ -120,30 +120,33 @@ int selfcheck::check_TFcard(void)
 
 int selfcheck::first_self_check(void)
 {
-    if (selfcheck::check_4G_modem() == 0)
-    {
-        std::cout << "4G modem error." << std::endl;
-    }
-    // if (selfcheck::check_BD() == 0)
-    // {
-    //     std::cout << "BD modem error." << std::endl;
-    // }
-    if (selfcheck::check_camera_AHD1() == 0)
-    {
-        std::cout << "check_camera_AHD1 error." << std::endl;
-    }
-    if (selfcheck::check_TFcard() == 0)
-    {
-        std::cout << "TFcard error." << std::endl;
-    }
-    // else
-    // {
-    //     std::cout << "Self Check Passed." << std::endl;
-    // }
+    struct *rk_info = new struct_rk_info;
+    rk_info->selfcheck::check_TFcard();
 
-    if (selfcheck::check_4G_IP_status() == 0)
-    {
-        std::cout << "4G connect error." << std::endl;
-    }
+    // if (selfcheck::check_4G_modem() == 0)
+    // {
+    //     std::cout << "4G modem error." << std::endl;
+    // }
+    // // if (selfcheck::check_BD() == 0)
+    // // {
+    // //     std::cout << "BD modem error." << std::endl;
+    // // }
+    // if (selfcheck::check_camera_AHD1() == 0)
+    // {
+    //     std::cout << "check_camera_AHD1 error." << std::endl;
+    // }
+    // if (selfcheck::check_TFcard() == 0)
+    // {
+    //     std::cout << "TFcard error." << std::endl;
+    // }
+    // // else
+    // // {
+    // //     std::cout << "Self Check Passed." << std::endl;
+    // // }
+
+    // if (selfcheck::check_4G_IP_status() == 0)
+    // {
+    //     std::cout << "4G connect error." << std::endl;
+    // }
     return 0;
 }

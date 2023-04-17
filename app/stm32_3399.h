@@ -28,7 +28,19 @@ struct car_info_str
 };
 #pragma pack() // 恢复默认字节对齐
 
-
+#pragma pack(push)
+#pragma pack(1) // 结构体1字节对齐
+struct struct_rk_info
+{
+	unsigned char 	op;
+	unsigned char 	EC20Status;
+	unsigned int	EC20SignalStrength;
+	unsigned char 	BDStatus;
+	unsigned char 	SDStatus;
+	unsigned char 	cameraStatus;
+        unsigned char 	velocityStatus;
+};
+#pragma pack() // 恢复默认字节对齐
 
 
 class stm32_value
