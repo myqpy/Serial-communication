@@ -34,7 +34,7 @@ struct struct_rk_info
 {
 	unsigned char 	op;
 	unsigned char 	EC20Status;
-	unsigned int	EC20SignalStrength;
+	unsigned char	EC20SignalStrength;
 	unsigned char 	BDStatus;
 	unsigned char 	SDStatus;
 	unsigned char 	cameraStatus;

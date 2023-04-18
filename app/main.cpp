@@ -9,16 +9,35 @@
 int main(void)
 {
     /*调用自检接口*/
-    // selfcheck selfCheck;
+    selfcheck selfCheck;
+    auto index = UartOpen(UART1, 115200, 8, 1, NO_CHECK);
+    
+    while (1)
+    {
+        struct_rk_info *rk_info = new struct_rk_info;
+        selfCheck.self_check(rk_info);
+        
+        printf("rk_info->op:%02x\r\n", rk_info->op);
+        printf("rk_info->SDStatus:%02x\r\n", rk_info->SDStatus);
+        printf("rk_info->EC20Status:%02x\r\n", rk_info->EC20Status);
+        printf("rk_info->EC20SignalStrength:%02x\r\n", rk_info->EC20SignalStrength);
+        printf("rk_info->cameraStatus:%02x\r\n", rk_info->cameraStatus);
+        printf("rk_info->velocityStatus:%02x\r\n", rk_info->velocityStatus);
+        printf("rk_info->BDStatus:%02x\r\n", rk_info->BDStatus);
 
-    // while (true)
-    // {
-    //     selfCheck.first_self_check();
-    //     // selfCheck.regular_self_check();
-    //     std::cout << std::endl;
-    //     std::cout << std::endl;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-    // }
+        // memcpy(buff, rk_info,sizeof(buff));
+        // for(int i=0;i<sizeof(rk_info);i++){
+        //     printf("%02x ", buff[i]);
+        // }
+
+        UartWrite(index, rk_info, sizeof(rk_info));
+        delete rk_info;
+        
+        // selfCheck.regular_self_check();
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
 
     /*4G开关指�?*/
     // switch4G switch4G_;
@@ -53,11 +72,11 @@ int main(void)
     // stm32_value.update(stm32_to_rk3399_);
 
     // /*4G模块串口测试*/
-    char buff[512];
-    auto index = UartOpen(UARTUSB3, 115200, 8, 1, NO_CHECK);
+    // char buff[512];
+    //  auto index = UartOpen(UARTUSB3, 115200, 8, 1, NO_CHECK);
 
     // std::cout << std::endl;
-    std::string str_buf = "";
+    // std::string str_buf = "";
 
     // UartWrite(index, "AT\r\n", sizeof("AT\r\n"));
     // while (1)
@@ -133,7 +152,7 @@ int main(void)
     //         break;
     //     }
     // }
-    
+
     // UartWrite(index, "AT+CMGS=\"15637142115\"\r\n", sizeof("AT+CMGS=\"15637142115\"\r\n"));
     // while (1)
     // {
@@ -144,10 +163,10 @@ int main(void)
     //     break;
     // }
 
-    EC20_Control AT;
-    std::string phone_num = "15637142115";
-    std::string text = "test test test";
-    AT.sendText(index, phone_num, text);
+    // EC20_Control AT;
+    // std::string phone_num = "15637142115";
+    // std::string text = "test test test";
+    // AT.sendText(index, phone_num, text);
     // AT.ATcmd_response(index, "AT\r\n");
     // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     // AT.ATcmd_response(index, "AT+CPIN?\r\n");

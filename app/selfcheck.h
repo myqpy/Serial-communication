@@ -1,21 +1,20 @@
 #include <iostream>
 
 
-
 class selfcheck
 {
 public:
-        int first_self_check(void);
+        int self_check(struct struct_rk_info *rk_info);
         // int regular_self_check(void);
-        int check_4G_modem(void);
-        int check_4G_IP_status(void);
+        unsigned char check_4G_modem(void);
+        unsigned char check_4G_IP_status(void);
         // int check_BD(void);
-        int check_camera_AHD1(void);
-        int check_TFcard(void);
+        unsigned char check_camera_AHD1(void);
+        unsigned char check_TFcard(void);
 
 private:
-        int status = 0;
-        int check_period = 0;
+        unsigned char status = 0;
+        unsigned char check_period = 0;
 };
 
 std::string getCmdResult(const std::string &strCmd);

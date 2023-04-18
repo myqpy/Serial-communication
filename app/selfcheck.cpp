@@ -32,7 +32,7 @@ std::string getCmdResult(const std::string &strCmd)
     return strResult;
 }
 
-int selfcheck::check_4G_modem(void)
+unsigned char selfcheck::check_4G_modem(void)
 {
     std::string check_4G_modem = "ls /dev/ttyUSB*";
     std::string strRe = getCmdResult(check_4G_modem);
@@ -61,7 +61,7 @@ int selfcheck::check_4G_modem(void)
 //     return status;
 // }
 
-int selfcheck::check_4G_IP_status(void)
+unsigned char selfcheck::check_4G_IP_status(void)
 {
     std::string camera_AHD1_check = "ifconfig";
     // auto ret = system(camera_check.c_str());
@@ -83,7 +83,7 @@ int selfcheck::check_4G_IP_status(void)
     return status;
 }
 
-int selfcheck::check_camera_AHD1(void)
+unsigned char selfcheck::check_camera_AHD1(void)
 {
     std::string camera_AHD1_check = "dmesg | grep pr2000";
     // auto ret = system(camera_check.c_str());
@@ -101,7 +101,7 @@ int selfcheck::check_camera_AHD1(void)
 
     return status;
 }
-int selfcheck::check_TFcard(void)
+unsigned char selfcheck::check_TFcard(void)
 {
     std::string TFcard_check = "sudo fdisk -l";
     std::string strRe = getCmdResult(TFcard_check);
@@ -118,10 +118,19 @@ int selfcheck::check_TFcard(void)
     return status;
 }
 
-int selfcheck::first_self_check(void)
+int selfcheck::self_check(struct_rk_info *rk_info)
 {
-    struct *rk_info = new struct_rk_info;
-    rk_info->selfcheck::check_TFcard();
+    // struct struct_rk_info *rk_info = new struct_rk_info;
+    rk_info->op = 0xee;
+    rk_info->SDStatus = selfcheck::check_TFcard();
+    rk_info->EC20Status = (selfcheck::check_4G_modem()) && (selfcheck::check_4G_IP_status());
+    rk_info->cameraStatus = selfcheck::check_camera_AHD1();
+    // rk_info->SDStatus = 1;
+    // rk_info->EC20Status = 1;
+    // rk_info->cameraStatus = 1;
+    // rk_info->EC20SignalStrength = 1;
+    // rk_info->BDStatus = 1;
+    // rk_info->velocityStatus = 1;
 
     // if (selfcheck::check_4G_modem() == 0)
     // {
